@@ -25,7 +25,7 @@
  * ===================================================================
  *
  */
-  
+
 
 #include <string.h>
 #include <Python.h>
@@ -50,7 +50,7 @@ typedef struct {
 /* ROTATE_LEFT rotates x left n bits */
 #define ROL(x, n) (((x) << n) | ((x) >> (32-n) ))
 
-static void 
+static void
 hash_init (hash_state *ptr)
 {
 	ptr->A=(U32)0x67452301;
@@ -69,11 +69,11 @@ hash_copy(hash_state *src, hash_state *dest)
 	dest->B=src->B;
 	dest->C=src->C;
 	dest->D=src->D;
-	dest->count=src->count;  
+	dest->count=src->count;
 	memcpy(dest->buf, src->buf, dest->count);
 }
 
-static void 
+static void
 hash_update (hash_state *self, const U8 *buf, U32 len)
 {
 	U32 L;
@@ -84,26 +84,26 @@ hash_update (hash_state *self, const U8 *buf, U32 len)
 	}
 	self->len1+=len<< 3;
 	self->len2+=len>>29;
-	while (len>0) 
+	while (len>0)
 	{
 		L=(64-self->count) < len ? (64-self->count) : len;
 		memcpy(self->buf+self->count, buf, L);
 		self->count+=L;
 		buf+=L;
 		len-=L;
-		if (self->count==64) 
+		if (self->count==64)
 		{
 			U32 X[16], A, B, C, D;
 			int i,j;
 			self->count=0;
-			for(i=j=0; j<16; i+=4, j++) 
+			for(i=j=0; j<16; i+=4, j++)
 				X[j]=((U32)self->buf[i]       + ((U32)self->buf[i+1]<<8) +
 				      ((U32)self->buf[i+2]<<16) + ((U32)self->buf[i+3]<<24));
 
 
 			A=self->A; B=self->B; C=self->C; D=self->D;
 
-#define function(a,b,c,d,k,s) a=ROL(a+F(b,c,d)+X[k],s);	 
+#define function(a,b,c,d,k,s) a=ROL(a+F(b,c,d)+X[k],s);
 			function(A,B,C,D, 0, 3);
 			function(D,A,B,C, 1, 7);
 			function(C,D,A,B, 2,11);
@@ -121,8 +121,8 @@ hash_update (hash_state *self, const U8 *buf, U32 len)
 			function(C,D,A,B,14,11);
 			function(B,C,D,A,15,19);
 
-#undef function	  
-#define function(a,b,c,d,k,s) a=ROL(a+G(b,c,d)+X[k]+(U32)0x5a827999,s);	 
+#undef function
+#define function(a,b,c,d,k,s) a=ROL(a+G(b,c,d)+X[k]+(U32)0x5a827999,s);
 			function(A,B,C,D, 0, 3);
 			function(D,A,B,C, 4, 5);
 			function(C,D,A,B, 8, 9);
@@ -140,8 +140,8 @@ hash_update (hash_state *self, const U8 *buf, U32 len)
 			function(C,D,A,B,11, 9);
 			function(B,C,D,A,15,13);
 
-#undef function	 
-#define function(a,b,c,d,k,s) a=ROL(a+H(b,c,d)+X[k]+(U32)0x6ed9eba1,s);	 
+#undef function
+#define function(a,b,c,d,k,s) a=ROL(a+H(b,c,d)+X[k]+(U32)0x6ed9eba1,s);
 			function(A,B,C,D, 0, 3);
 			function(D,A,B,C, 8, 9);
 			function(C,D,A,B, 4,11);
@@ -195,7 +195,7 @@ hash_digest (const hash_state *self)
 	s[6]=(oldlen2 >> 16) & 255;
 	s[7]=(oldlen2 >> 24) & 255;
 	hash_update(&temp, s, 8);
-  
+
 	digest[ 0]= temp.A        & 255;
 	digest[ 1]=(temp.A >>  8) & 255;
 	digest[ 2]=(temp.A >> 16) & 255;
@@ -212,7 +212,7 @@ hash_digest (const hash_state *self)
 	digest[13]=(temp.D >>  8) & 255;
 	digest[14]=(temp.D >> 16) & 255;
 	digest[15]=(temp.D >> 24) & 255;
-  
+
 	return PyString_FromStringAndSize((char *) digest, 16);
 }
 

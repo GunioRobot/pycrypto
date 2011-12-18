@@ -13,13 +13,13 @@ Content-Length: 2513
 
 Hi Jeethu,
 
-I am the new maintainer of the Python Cryptography Toolkit, and I am 
+I am the new maintainer of the Python Cryptography Toolkit, and I am
 working on a new release at http://www.pycrypto.org/.
 
-People often ask me what license PyCrypto is covered by, if it's 
-GPL-compatible, etc.  Right now, I'm not really sure what to tell them.  
-The text in the current LICENSE file (quoted below) is not entirely clear 
-on the point of whether distributing modified versions is allowed.  (It 
+People often ask me what license PyCrypto is covered by, if it's
+GPL-compatible, etc.  Right now, I'm not really sure what to tell them.
+The text in the current LICENSE file (quoted below) is not entirely clear
+on the point of whether distributing modified versions is allowed.  (It
 says "distribute and use", but not "modify".)
 
  ===================================================================
@@ -36,17 +36,17 @@ says "distribute and use", but not "modify".)
 
  --amk                                                    (www.amk.ca)
 
-For the next PyCrypto release, I would like to take steps to move toward a 
-clearer licensing regime.  I am asking as many copyright holders as I can 
-find if I can release PyCrypto under something clearer and more standard.  
-Below, I have quoted a public domain dedication that was recommended in 
-_Intellectual Property and Open Source: A Practical Guide to Protecting 
-Code_, by Van Lindberg.  I have already contacted A. M. Kuchling, Robey 
-Pointer, and Wim Lewis, and they have all approved the following text for 
+For the next PyCrypto release, I would like to take steps to move toward a
+clearer licensing regime.  I am asking as many copyright holders as I can
+find if I can release PyCrypto under something clearer and more standard.
+Below, I have quoted a public domain dedication that was recommended in
+_Intellectual Property and Open Source: A Practical Guide to Protecting
+Code_, by Van Lindberg.  I have already contacted A. M. Kuchling, Robey
+Pointer, and Wim Lewis, and they have all approved the following text for
 their contributions.
 
-I understand that you have made contributions to PyCrypto.  May I, on your 
-behalf, dedicate to the public domain all your contributions to PyCrypto, 
+I understand that you have made contributions to PyCrypto.  May I, on your
+behalf, dedicate to the public domain all your contributions to PyCrypto,
 with the following notice?
 
  =======================================================================
@@ -60,7 +60,7 @@ with the following notice?
 Regards,
  - Dwayne
 
--- 
+--
 Dwayne C. Litzenberger <dlitz@dlitz.net>
        Key-signing key   - 19E1 1FE8 B3CF F273 ED17  4A24 928C EC13 39C2 5CF7
 
@@ -99,7 +99,7 @@ DomainKey-Signature: a=rsa-sha1; c=nofws;
          vljqcT+G6cywVTBw1pyGX7ECYzr0+vhGvgdpACGrs24zikHfpSSd5GFogzXaLVvGVH8p
          bqSHpfWKKtEP4gAQkiNeIq1GNtR2j8U3fnRyg=
 MIME-Version: 1.0
-Received: by 10.141.176.13 with SMTP id d13mr2656028rvp.231.1236547674677; 
+Received: by 10.141.176.13 with SMTP id d13mr2656028rvp.231.1236547674677;
 	Sun, 08 Mar 2009 14:27:54 -0700 (PDT)
 In-Reply-To: <20090301042414.GA15122@rivest.dlitz.net>
 References: <20090301042414.GA15122@rivest.dlitz.net>
@@ -183,7 +183,7 @@ On Sun, Mar 1, 2009 at 9:54 AM, Dwayne C. Litzenberger <dlitz@dlitz.net>wrote:
 
 
 
--- 
+--
 Jeethu Rao
 
 --000e0cd209d0e5a3d40464a23054

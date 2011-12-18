@@ -111,12 +111,12 @@ Content-Length: 3488
 
 Hi Dwayne,
 
-Thanks for taking over the PyCrypto library and putting in the required 
+Thanks for taking over the PyCrypto library and putting in the required
 effort to keep this going.
-I was very excited to read that it is now one of the installed 
+I was very excited to read that it is now one of the installed
 libraries for Google AppsEngine!
 
-You have my full permission to dedicate all my contributions to 
+You have my full permission to dedicate all my contributions to
 PyCrypto to the public domain with your suggested notice:
 =======================================================================
 The contents of this file are dedicated to the public domain.  To the
@@ -215,12 +215,12 @@ Excellent!  Thank you!
 On Tue, May 05, 2009 at 09:08:25AM +0200, joris@bontje.nl wrote:
 > Hi Dwayne,
 >
-> Thanks for taking over the PyCrypto library and putting in the required 
+> Thanks for taking over the PyCrypto library and putting in the required
 > effort to keep this going.
-> I was very excited to read that it is now one of the installed libraries 
+> I was very excited to read that it is now one of the installed libraries
 > for Google AppsEngine!
 >
-> You have my full permission to dedicate all my contributions to PyCrypto to 
+> You have my full permission to dedicate all my contributions to PyCrypto to
 > the public domain with your suggested notice:
 > =======================================================================
 > The contents of this file are dedicated to the public domain.  To the
@@ -291,7 +291,7 @@ On Tue, May 05, 2009 at 09:08:25AM +0200, joris@bontje.nl wrote:
 >
 >
 
--- 
+--
 Dwayne C. Litzenberger <dlitz@dlitz.net>
   Key-signing key   - 19E1 1FE8 B3CF F273 ED17  4A24 928C EC13 39C2 5CF7
   Annual key (2008) - 4B2A FD82 FC7D 9E38 38D9  179F 1C11 B877 E780 4B45

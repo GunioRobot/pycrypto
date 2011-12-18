@@ -30,21 +30,21 @@
 #define BLOCK_SIZE 1
 #define KEY_SIZE 0
 
-typedef struct 
+typedef struct
 {
 	unsigned char state[256];
 	unsigned char x,y;
 } stream_state;
 
 /* Encryption and decryption are symmetric */
-#define stream_decrypt stream_encrypt	
+#define stream_decrypt stream_encrypt
 
-static void stream_encrypt(stream_state *self, unsigned char *block, 
+static void stream_encrypt(stream_state *self, unsigned char *block,
 			   int len)
 {
 	register int i, x=self->x, y=self->y;
 
-	for (i=0; i<len; i++) 
+	for (i=0; i<len; i++)
 	{
 		x = (x + 1) % 256;
 		y = (y + self->state[x]) % 256;
@@ -72,7 +72,7 @@ static void stream_init(stream_state *self, unsigned char *key, int keylen)
 	for(i=0; i<256; i++) self->state[i]=i;
 	self->x=0; self->y=0;
 	index1=0; index2=0;
-	for(i=0; i<256; i++) 
+	for(i=0; i<256; i++)
 	{
 		register int t;
 		index2 = ( key[index1] + self->state[i] + index2) % 256;
@@ -82,7 +82,7 @@ static void stream_init(stream_state *self, unsigned char *key, int keylen)
 		index1 = (index1 + 1) % keylen;
 	}
 }
-     
+
 #include "stream_template.c"
 
-  
+

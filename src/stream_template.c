@@ -49,9 +49,9 @@
 	 *
 	 */
 
-typedef struct 
+typedef struct
 {
-	PyObject_HEAD 
+	PyObject_HEAD
 	stream_state st;
 } ALGobject;
 
@@ -77,7 +77,7 @@ ALGdealloc(PyObject *ptr)
 	PyObject_Del(ptr);
 }
 
-static char ALGnew__doc__[] = 
+static char ALGnew__doc__[] =
 "Return a new " _MODULE_STRING " encryption object.";
 
 static char *kwlist[] = {"key", NULL};
@@ -90,7 +90,7 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 	int keylen;
 
 	new = newALGobject();
-	if (!PyArg_ParseTupleAndKeywords(args, kwdict, "s#", kwlist, 
+	if (!PyArg_ParseTupleAndKeywords(args, kwdict, "s#", kwlist,
 					 &key, &keylen))
 	{
 		Py_DECREF(new);
@@ -99,14 +99,14 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 
 	if (KEY_SIZE!=0 && keylen != KEY_SIZE)
 	{
-		PyErr_SetString(PyExc_ValueError, 
+		PyErr_SetString(PyExc_ValueError,
 				_MODULE_STRING " key must be "
 				"KEY_SIZE bytes long");
 		return NULL;
 	}
 	if (KEY_SIZE== 0 && keylen == 0)
 	{
-		PyErr_SetString(PyExc_ValueError, 
+		PyErr_SetString(PyExc_ValueError,
 				_MODULE_STRING " key cannot be "
 				"the null string (0 bytes long)");
 		return NULL;
@@ -212,7 +212,7 @@ ALGgetattr(PyObject *self, char *name)
 
 static struct PyMethodDef modulemethods[] =
 {
-	{"new", (PyCFunction) ALGnew, 
+	{"new", (PyCFunction) ALGnew,
 	 METH_VARARGS|METH_KEYWORDS, ALGnew__doc__},
 	{NULL, NULL}			/* sentinel */
 };

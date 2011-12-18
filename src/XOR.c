@@ -32,7 +32,7 @@
 
 #define MAX_KEY_SIZE 32
 
-typedef struct 
+typedef struct
 {
 	unsigned char key[MAX_KEY_SIZE];
 	int keylen, last_pos;
@@ -60,9 +60,9 @@ stream_init(stream_state *self, unsigned char *key, int len)
 }
 
 /* Encryption and decryption are symmetric */
-#define stream_decrypt stream_encrypt	
+#define stream_decrypt stream_encrypt
 
-static void stream_encrypt(stream_state *self, unsigned char *block, 
+static void stream_encrypt(stream_state *self, unsigned char *block,
 			   int len)
 {
 	int i, j = self->last_pos;

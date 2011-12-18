@@ -21,7 +21,7 @@
  * SOFTWARE.
  * ===================================================================
  */
-  
+
 /* Basic object type */
 
 #ifdef HAVE_CONFIG_H
@@ -71,7 +71,7 @@ ALG_dealloc(PyObject *ptr)
 
 /* External methods for a hashing object */
 
-static char ALG_copy__doc__[] = 
+static char ALG_copy__doc__[] =
 "copy(): Return a copy of the hashing object.";
 
 static PyObject *
@@ -82,15 +82,15 @@ ALG_copy(ALGobject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "")) {
 		return NULL;
 	}
-	
+
 	if ( (newobj = newALGobject())==NULL)
 		return NULL;
 
 	hash_copy(&(self->st), &(newobj->st));
-	return((PyObject *)newobj); 
+	return((PyObject *)newobj);
 }
 
-static char ALG_digest__doc__[] = 
+static char ALG_digest__doc__[] =
 "digest(): Return the digest value as a string of binary data.";
 
 static PyObject *
@@ -102,7 +102,7 @@ ALG_digest(ALGobject *self, PyObject *args)
 	return (PyObject *)hash_digest(&(self->st));
 }
 
-static char ALG_hexdigest__doc__[] = 
+static char ALG_hexdigest__doc__[] =
 "hexdigest(): Return the digest value as a string of hexadecimal digits.";
 
 static PyObject *
@@ -125,19 +125,19 @@ ALG_hexdigest(ALGobject *self, PyObject *args)
 	hex_digest = (unsigned char *) PyString_AsString(retval);
 
 	/* Make hex version of the digest */
-	for(i=j=0; i<size; i++)	
+	for(i=j=0; i<size; i++)
 	{
 		char c;
 		c = raw_digest[i] / 16; c = (c>9) ? c+'a'-10 : c + '0';
 		hex_digest[j++] = c;
 		c = raw_digest[i] % 16; c = (c>9) ? c+'a'-10 : c + '0';
 		hex_digest[j++] = c;
-	}	
+	}
 	Py_DECREF(value);
 	return retval;
 }
 
-static char ALG_update__doc__[] = 
+static char ALG_update__doc__[] =
 "update(string): Update this hashing object's state with the provided string.";
 
 static PyObject *
@@ -160,7 +160,7 @@ ALG_update(ALGobject *self, PyObject *args)
 static PyMethodDef ALG_methods[] = {
 	{"copy", (PyCFunction)ALG_copy, METH_VARARGS, ALG_copy__doc__},
 	{"digest", (PyCFunction)ALG_digest, METH_VARARGS, ALG_digest__doc__},
-	{"hexdigest", (PyCFunction)ALG_hexdigest, METH_VARARGS, 
+	{"hexdigest", (PyCFunction)ALG_hexdigest, METH_VARARGS,
 	 ALG_hexdigest__doc__},
 	{"update", (PyCFunction)ALG_update, METH_VARARGS, ALG_update__doc__},
 	{NULL,			NULL}		/* sentinel */
@@ -171,7 +171,7 @@ ALG_getattr(PyObject *self, char *name)
 {
 	if (strcmp(name, "digest_size")==0)
 		return PyInt_FromLong(DIGEST_SIZE);
-	
+
 	return Py_FindMethod(ALG_methods, self, name);
 }
 
@@ -195,10 +195,10 @@ static PyTypeObject ALGtype = {
 /* The single module-level function: new() */
 
 static char ALG_new__doc__[] =
-"new([string]): Return a new " _MODULE_STRING 
+"new([string]): Return a new " _MODULE_STRING
 " hashing object.  An optional string "
 "argument may be provided; if present, this string will be "
-"automatically hashed into the initial state of the object."; 
+"automatically hashed into the initial state of the object.";
 
 static PyObject *
 ALG_new(PyObject *self, PyObject *args)
@@ -206,7 +206,7 @@ ALG_new(PyObject *self, PyObject *args)
         ALGobject *new;
 	unsigned char *cp = NULL;
 	int len;
-	
+
 	if ((new = newALGobject()) == NULL)
 		return NULL;
 
@@ -219,7 +219,7 @@ ALG_new(PyObject *self, PyObject *args)
         hash_init(&(new->st));
 
 	if (PyErr_Occurred()) {
-		Py_DECREF(new); 
+		Py_DECREF(new);
 		return NULL;
 	}
 	if (cp) {
@@ -261,6 +261,6 @@ _MODULE_NAME (void)
 
 	/* Check for errors */
 	if (PyErr_Occurred())
-		Py_FatalError("can't initialize module " 
+		Py_FatalError("can't initialize module "
                               _MODULE_STRING);
 }

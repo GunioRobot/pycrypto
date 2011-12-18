@@ -3,19 +3,19 @@
 
 /* macros for various libc functions you can change for embedded targets */
 #ifndef XMALLOC
-   #ifdef malloc 
+   #ifdef malloc
    #define LTC_NO_PROTOTYPES
    #endif
 #define XMALLOC  malloc
 #endif
 #ifndef XREALLOC
-   #ifdef realloc 
+   #ifdef realloc
    #define LTC_NO_PROTOTYPES
    #endif
 #define XREALLOC realloc
 #endif
 #ifndef XCALLOC
-   #ifdef calloc 
+   #ifdef calloc
    #define LTC_NO_PROTOTYPES
    #endif
 #define XCALLOC  calloc
@@ -40,7 +40,7 @@
 #define XMEMCPY  memcpy
 #endif
 #ifndef XMEMCMP
-   #ifdef memcmp 
+   #ifdef memcmp
    #define LTC_NO_PROTOTYPES
    #endif
 #define XMEMCMP  memcmp
@@ -73,19 +73,19 @@
    #define BLOWFISH
    #define DES
    #define CAST5
-   
+
    #define LTC_NO_MODES
    #define LTC_ECB_MODE
    #define LTC_CBC_MODE
    #define LTC_CTR_MODE
-   
+
    #define LTC_NO_HASHES
    #define SHA1
    #define SHA512
    #define SHA384
    #define SHA256
    #define SHA224
-   
+
    #define LTC_NO_MACS
    #define HMAC
    #define OMAC
@@ -96,11 +96,11 @@
    #define YARROW
    #define DEVRANDOM
    #define TRY_URANDOM_FIRST
-      
+
    #define LTC_NO_PK
    #define MRSA
    #define MECC
-#endif   
+#endif
 
 /* Use small code where possible */
 /* #define LTC_SMALL_CODE */
@@ -176,7 +176,7 @@
 #define LTC_LRW_MODE
 #ifndef LTC_NO_TABLES
    /* like GCM mode this will enable 16 8x128 tables [64KB] that make
-    * seeking very fast.  
+    * seeking very fast.
     */
    #define LRW_TABLES
 #endif
@@ -184,7 +184,7 @@
 #endif /* LTC_NO_MODES */
 
 /* ---> One-Way Hash Functions <--- */
-#ifndef LTC_NO_HASHES 
+#ifndef LTC_NO_HASHES
 
 #define CHC_HASH
 #define WHIRLPOOL
@@ -231,7 +231,7 @@
 
 /* Use 64KiB tables */
 #ifndef LTC_NO_TABLES
-   #define GCM_TABLES 
+   #define GCM_TABLES
 #endif
 
 /* USE SSE2? requires GCC works on x86_32 and x86_64*/
@@ -298,7 +298,7 @@
 #define MRSA
 
 /* Include Katja (a Rabin variant like RSA) */
-/* #define MKAT */ 
+/* #define MKAT */
 
 /* Digital Signature Algorithm */
 #define MDSA
@@ -311,7 +311,7 @@
 
 #if defined(TFM_DESC) && defined(MECC)
    #define MECC_ACCEL
-#endif   
+#endif
 
 /* do we want fixed point ECC */
 /* #define MECC_FP */
@@ -355,9 +355,9 @@
 
 #ifdef MRSA
    #define PKCS_1
-#endif   
+#endif
 
-#if defined(LTC_DER) && !defined(MPI) 
+#if defined(LTC_DER) && !defined(MPI)
    #error ASN.1 DER requires MPI functionality
 #endif
 

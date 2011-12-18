@@ -34,7 +34,7 @@
 #endif
 
 #include "Python.h"
-#include "modsupport.h" 
+#include "modsupport.h"
 
 #include "_counter.h"
 
@@ -54,9 +54,9 @@
 #define _MODULE_NAME _PASTE2(init,MODULE_NAME)
 #define _MODULE_STRING _XSTR(MODULE_NAME)
 
-typedef struct 
+typedef struct
 {
-	PyObject_HEAD 
+	PyObject_HEAD
 	int mode, count, segment_size;
 	unsigned char IV[BLOCK_SIZE], oldCipher[BLOCK_SIZE];
 	PyObject *counter;
@@ -81,7 +81,7 @@ newALGobject(void)
 
 static void
 ALGdealloc(PyObject *ptr)
-{		
+{
 	ALGobject *self = (ALGobject *)ptr;
 
 	/* Overwrite the contents of the object */
@@ -95,7 +95,7 @@ ALGdealloc(PyObject *ptr)
 }
 
 
-static char ALGnew__doc__[] = 
+static char ALGnew__doc__[] =
 "new(key, [mode], [IV]): Return a new " _MODULE_STRING " encryption object.";
 
 static char *kwlist[] = {"key", "mode", "IV", "counter", "segment_size",
@@ -126,33 +126,33 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 #ifdef PCT_ARC2_MODULE
 					 , &effective_keylen
 #endif
-		)) 
+		))
 	{
 		return NULL;
 	}
 
 	if (KEY_SIZE!=0 && keylen!=KEY_SIZE)
 	{
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "Key must be %i bytes long, not %i",
 			     KEY_SIZE, keylen);
 		return NULL;
 	}
 	if (KEY_SIZE==0 && keylen==0)
 	{
-		PyErr_SetString(PyExc_ValueError, 
+		PyErr_SetString(PyExc_ValueError,
 				"Key cannot be the null string");
 		return NULL;
 	}
 	if (IVlen != BLOCK_SIZE && IVlen != 0)
 	{
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "IV must be %i bytes long", BLOCK_SIZE);
 		return NULL;
 	}
-	if (mode<MODE_ECB || mode>MODE_CTR) 
+	if (mode<MODE_ECB || mode>MODE_CTR)
 	{
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "Unknown cipher feedback mode %i",
 			     mode);
 		return NULL;
@@ -162,7 +162,7 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 	if (mode == MODE_CFB) {
 		if (segment_size == 0) segment_size = 8;
 		if (segment_size < 1 || segment_size > BLOCK_SIZE*8 || ((segment_size & 7) != 0)) {
-			PyErr_Format(PyExc_ValueError, 
+			PyErr_Format(PyExc_ValueError,
 				     "segment_size must be multiple of 8 (bits) "
 				     "between 1 and %i", BLOCK_SIZE*8);
 			return NULL;
@@ -177,13 +177,13 @@ ALGnew(PyObject *self, PyObject *args, PyObject *kwdict)
 		} else if (PyObject_HasAttrString(counter, "__PCT_CTR_SHORTCUT__")) {
 			counter_shortcut = 1;
 		} else if (!PyCallable_Check(counter)) {
-			PyErr_SetString(PyExc_ValueError, 
+			PyErr_SetString(PyExc_ValueError,
 					"'counter' parameter must be a callable object");
 			return NULL;
 		}
 	} else {
 		if (counter != NULL) {
-			PyErr_SetString(PyExc_ValueError, 
+			PyErr_SetString(PyExc_ValueError,
 					"'counter' parameter only useful with CTR mode");
 			return NULL;
 		}
@@ -241,26 +241,26 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 	unsigned char temp[BLOCK_SIZE];
 	int i, j, len;
 	PyObject *result;
-  
+
 	if (!PyArg_Parse(args, "s#", &str, &len))
 		return NULL;
 	if (len==0)			/* Handle empty string */
 	{
 		return PyString_FromStringAndSize(NULL, 0);
 	}
-	if ( (len % BLOCK_SIZE) !=0 && 
+	if ( (len % BLOCK_SIZE) !=0 &&
 	     (self->mode!=MODE_CFB) && (self->mode!=MODE_PGP) &&
 	     (self->mode!=MODE_CTR))
 	{
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "Input strings must be "
 			     "a multiple of %i in length",
 			     BLOCK_SIZE);
 		return NULL;
 	}
-	if (self->mode == MODE_CFB && 
+	if (self->mode == MODE_CFB &&
 	    (len % (self->segment_size/8) !=0)) {
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "Input strings must be a multiple of "
 			     "the segment size %i in length",
 			     self->segment_size/8);
@@ -268,9 +268,9 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 	}
 
 	buffer=malloc(len);
-	if (buffer==NULL) 
+	if (buffer==NULL)
 	{
-		PyErr_SetString(PyExc_MemoryError, 
+		PyErr_SetString(PyExc_MemoryError,
 				"No memory available in "
 				_MODULE_STRING " encrypt");
 		return NULL;
@@ -278,15 +278,15 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 	Py_BEGIN_ALLOW_THREADS;
 	switch(self->mode)
 	{
-	case(MODE_ECB):      
-		for(i=0; i<len; i+=BLOCK_SIZE) 
+	case(MODE_ECB):
+		for(i=0; i<len; i+=BLOCK_SIZE)
 		{
 			block_encrypt(&(self->st), str+i, buffer+i);
 		}
 		break;
 
-	case(MODE_CBC):      
-		for(i=0; i<len; i+=BLOCK_SIZE) 
+	case(MODE_CBC):
+		for(i=0; i<len; i+=BLOCK_SIZE)
 		{
 			for(j=0; j<BLOCK_SIZE; j++)
 			{
@@ -297,49 +297,49 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 		}
 		break;
 
-	case(MODE_CFB):      
-		for(i=0; i<len; i+=self->segment_size/8) 
+	case(MODE_CFB):
+		for(i=0; i<len; i+=self->segment_size/8)
 		{
 			block_encrypt(&(self->st), self->IV, temp);
 			for (j=0; j<self->segment_size/8; j++) {
 				buffer[i+j] = str[i+j] ^ temp[j];
 			}
 			if (self->segment_size == BLOCK_SIZE * 8) {
-				/* s == b: segment size is identical to 
+				/* s == b: segment size is identical to
 				   the algorithm block size */
 				memcpy(self->IV, buffer + i, BLOCK_SIZE);
 			}
 			else if ((self->segment_size % 8) == 0) {
 				int sz = self->segment_size/8;
-				memmove(self->IV, self->IV + sz, 
+				memmove(self->IV, self->IV + sz,
 					BLOCK_SIZE-sz);
 				memcpy(self->IV + BLOCK_SIZE - sz, buffer + i,
 				       sz);
 			}
 			else {
-				/* segment_size is not a multiple of 8; 
+				/* segment_size is not a multiple of 8;
 				   currently this can't happen */
 			}
 		}
 		break;
 
 	case(MODE_PGP):
-		if (len<=BLOCK_SIZE-self->count) 
-		{			
+		if (len<=BLOCK_SIZE-self->count)
+		{
 			/* If less than one block, XOR it in */
-			for(i=0; i<len; i++) 
+			for(i=0; i<len; i++)
 				buffer[i] = self->IV[self->count+i] ^= str[i];
 			self->count += len;
 		}
-		else 
+		else
 		{
 			int j;
-			for(i=0; i<BLOCK_SIZE-self->count; i++) 
+			for(i=0; i<BLOCK_SIZE-self->count; i++)
 				buffer[i] = self->IV[self->count+i] ^= str[i];
 			self->count=0;
-			for(; i<len-BLOCK_SIZE; i+=BLOCK_SIZE) 
+			for(; i<len-BLOCK_SIZE; i+=BLOCK_SIZE)
 			{
-				block_encrypt(&(self->st), self->oldCipher, 
+				block_encrypt(&(self->st), self->oldCipher,
 					      self->IV);
 				for(j=0; j<BLOCK_SIZE; j++)
 					buffer[i+j] = self->IV[j] ^= str[i+j];
@@ -347,7 +347,7 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 			/* Do the remaining 1 to BLOCK_SIZE bytes */
 			block_encrypt(&(self->st), self->oldCipher, self->IV);
 			self->count=len-i;
-			for(j=0; j<len-i; j++) 
+			for(j=0; j<len-i; j++)
 			{
 				buffer[i+j] = self->IV[j] ^= str[i+j];
 			}
@@ -355,7 +355,7 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 		break;
 
 	case(MODE_OFB):
-		for(i=0; i<len; i+=BLOCK_SIZE) 
+		for(i=0; i<len; i+=BLOCK_SIZE)
 		{
 			block_encrypt(&(self->st), self->IV, temp);
 			memcpy(self->IV, temp, BLOCK_SIZE);
@@ -363,7 +363,7 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 			{
 				buffer[i+j] = str[i+j] ^ temp[j];
 			}
-		}      
+		}
 		break;
 
 	case(MODE_CTR):
@@ -470,7 +470,7 @@ ALG_Encrypt(ALGobject *self, PyObject *args)
 
 	default:
 		Py_BLOCK_THREADS;
-		PyErr_Format(PyExc_SystemError, 
+		PyErr_Format(PyExc_SystemError,
 			     "Unknown ciphertext feedback mode %i; "
 			     "this shouldn't happen",
 			     self->mode);
@@ -505,27 +505,27 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 	{
 		return PyString_FromStringAndSize(NULL, 0);
 	}
-	if ( (len % BLOCK_SIZE) !=0 && 
+	if ( (len % BLOCK_SIZE) !=0 &&
 	     (self->mode!=MODE_CFB && self->mode!=MODE_PGP))
 	{
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "Input strings must be "
 			     "a multiple of %i in length",
 			     BLOCK_SIZE);
 		return NULL;
 	}
-	if (self->mode == MODE_CFB && 
+	if (self->mode == MODE_CFB &&
 	    (len % (self->segment_size/8) !=0)) {
-		PyErr_Format(PyExc_ValueError, 
+		PyErr_Format(PyExc_ValueError,
 			     "Input strings must be a multiple of "
 			     "the segment size %i in length",
 			     self->segment_size/8);
 		return NULL;
 	}
 	buffer=malloc(len);
-	if (buffer==NULL) 
+	if (buffer==NULL)
 	{
-		PyErr_SetString(PyExc_MemoryError, 
+		PyErr_SetString(PyExc_MemoryError,
 				"No memory available in " _MODULE_STRING
 				" decrypt");
 		return NULL;
@@ -533,19 +533,19 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 	Py_BEGIN_ALLOW_THREADS;
 	switch(self->mode)
 	{
-	case(MODE_ECB):      
-		for(i=0; i<len; i+=BLOCK_SIZE) 
+	case(MODE_ECB):
+		for(i=0; i<len; i+=BLOCK_SIZE)
 		{
 			block_decrypt(&(self->st), str+i, buffer+i);
 		}
 		break;
 
-	case(MODE_CBC):      
-		for(i=0; i<len; i+=BLOCK_SIZE) 
+	case(MODE_CBC):
+		for(i=0; i<len; i+=BLOCK_SIZE)
 		{
 			memcpy(self->oldCipher, self->IV, BLOCK_SIZE);
 			block_decrypt(&(self->st), str+i, temp);
-			for(j=0; j<BLOCK_SIZE; j++) 
+			for(j=0; j<BLOCK_SIZE; j++)
 			{
 				buffer[i+j]=temp[j]^self->IV[j];
 				self->IV[j]=str[i+j];
@@ -553,35 +553,35 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 		}
 		break;
 
-	case(MODE_CFB):      
-		for(i=0; i<len; i+=self->segment_size/8) 
+	case(MODE_CFB):
+		for(i=0; i<len; i+=self->segment_size/8)
 		{
 			block_encrypt(&(self->st), self->IV, temp);
 			for (j=0; j<self->segment_size/8; j++) {
 				buffer[i+j] = str[i+j]^temp[j];
 			}
 			if (self->segment_size == BLOCK_SIZE * 8) {
-				/* s == b: segment size is identical to 
+				/* s == b: segment size is identical to
 				   the algorithm block size */
 				memcpy(self->IV, str + i, BLOCK_SIZE);
 			}
 			else if ((self->segment_size % 8) == 0) {
 				int sz = self->segment_size/8;
-				memmove(self->IV, self->IV + sz, 
+				memmove(self->IV, self->IV + sz,
 					BLOCK_SIZE-sz);
-				memcpy(self->IV + BLOCK_SIZE - sz, str + i, 
+				memcpy(self->IV + BLOCK_SIZE - sz, str + i,
 				       sz);
 			}
 			else {
-				/* segment_size is not a multiple of 8; 
+				/* segment_size is not a multiple of 8;
 				   currently this can't happen */
 			}
 		}
 		break;
 
 	case(MODE_PGP):
-		if (len<=BLOCK_SIZE-self->count) 
-		{			
+		if (len<=BLOCK_SIZE-self->count)
+		{
                         /* If less than one block, XOR it in */
 			unsigned char t;
 			for(i=0; i<len; i++)
@@ -591,17 +591,17 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 			}
 			self->count += len;
 		}
-		else 
+		else
 		{
 			int j;
 			unsigned char t;
-			for(i=0; i<BLOCK_SIZE-self->count; i++) 
+			for(i=0; i<BLOCK_SIZE-self->count; i++)
 			{
 				t=self->IV[self->count+i];
 				buffer[i] = t ^ (self->IV[self->count+i] = str[i]);
 			}
 			self->count=0;
-			for(; i<len-BLOCK_SIZE; i+=BLOCK_SIZE) 
+			for(; i<len-BLOCK_SIZE; i+=BLOCK_SIZE)
 			{
 				block_encrypt(&(self->st), self->oldCipher, self->IV);
 				for(j=0; j<BLOCK_SIZE; j++)
@@ -613,7 +613,7 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 			/* Do the remaining 1 to BLOCK_SIZE bytes */
 			block_encrypt(&(self->st), self->oldCipher, self->IV);
 			self->count=len-i;
-			for(j=0; j<len-i; j++) 
+			for(j=0; j<len-i; j++)
 			{
 				t=self->IV[j];
 				buffer[i+j] = t ^ (self->IV[j] = str[i+j]);
@@ -622,7 +622,7 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 		break;
 
 	case (MODE_OFB):
-		for(i=0; i<len; i+=BLOCK_SIZE) 
+		for(i=0; i<len; i+=BLOCK_SIZE)
 		{
 			block_encrypt(&(self->st), self->IV, temp);
 			memcpy(self->IV, temp, BLOCK_SIZE);
@@ -630,12 +630,12 @@ ALG_Decrypt(ALGobject *self, PyObject *args)
 			{
 				buffer[i+j] = str[i+j] ^ self->IV[j];
 			}
-		}      
+		}
 		break;
 
 	default:
 		Py_BLOCK_THREADS;
-		PyErr_Format(PyExc_SystemError, 
+		PyErr_Format(PyExc_SystemError,
 			     "Unknown ciphertext feedback mode %i; "
 			     "this shouldn't happen",
 			     self->mode);
@@ -659,18 +659,18 @@ ALG_Sync(ALGobject *self, PyObject *args)
 		return NULL;
 	}
 
-	if (self->mode!=MODE_PGP) 
+	if (self->mode!=MODE_PGP)
 	{
 		PyErr_SetString(PyExc_SystemError, "sync() operation not defined for "
 				"this feedback mode");
 		return NULL;
 	}
-	
-	if (self->count!=8) 
+
+	if (self->count!=8)
 	{
-		memmove(self->IV+BLOCK_SIZE-self->count, self->IV, 
+		memmove(self->IV+BLOCK_SIZE-self->count, self->IV,
 			self->count);
-		memcpy(self->IV, self->oldCipher+self->count, 
+		memcpy(self->IV, self->oldCipher+self->count,
 		       BLOCK_SIZE-self->count);
 		self->count=8;
 	}
@@ -684,7 +684,7 @@ void PrintState(self, msg)
      char * msg;
 {
   int count;
-  
+
   printf("%sing: %i IV ", msg, (int)self->count);
   for(count=0; count<8; count++) printf("%i ", self->IV[count]);
   printf("\noldCipher:");
@@ -709,7 +709,7 @@ static int
 ALGsetattr(PyObject *ptr, char *name, PyObject *v)
 {
   ALGobject *self=(ALGobject *)ptr;
-  if (strcmp(name, "IV") != 0) 
+  if (strcmp(name, "IV") != 0)
     {
       PyErr_Format(PyExc_AttributeError,
 		   "non-existent block cipher object attribute '%s'",
@@ -728,9 +728,9 @@ ALGsetattr(PyObject *ptr, char *name, PyObject *v)
 		      "IV attribute of block cipher object must be string");
       return -1;
     }
-  if (PyString_Size(v)!=BLOCK_SIZE) 
+  if (PyString_Size(v)!=BLOCK_SIZE)
     {
-      PyErr_Format(PyExc_ValueError, 
+      PyErr_Format(PyExc_ValueError,
 		   _MODULE_STRING " IV must be %i bytes long",
 		   BLOCK_SIZE);
       return -1;
@@ -743,7 +743,7 @@ static PyObject *
 ALGgetattr(PyObject *s, char *name)
 {
   ALGobject *self = (ALGobject*)s;
-  if (strcmp(name, "IV") == 0) 
+  if (strcmp(name, "IV") == 0)
     {
       return(PyString_FromStringAndSize((char *) self->IV, BLOCK_SIZE));
     }

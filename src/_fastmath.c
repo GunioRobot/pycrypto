@@ -205,7 +205,7 @@ rsaDecrypt (rsaKey * key, mpz_t v)
 		return 2;
 	}
 
-    if ((mpz_size (key->p) != 0) && (mpz_size (key->q) != 0) && 
+    if ((mpz_size (key->p) != 0) && (mpz_size (key->q) != 0) &&
         (mpz_size (key->u) != 0))
     {
         /* fast path */
@@ -279,7 +279,7 @@ rsaUnBlind (rsaKey * key, mpz_t v, mpz_t b)
     mpz_mod (v, v, key->n);
     return 0;
 }
- 
+
 
 static PyTypeObject dsaKeyType = {
 	PyObject_HEAD_INIT (NULL) 0,
@@ -300,7 +300,7 @@ static PyTypeObject dsaKeyType = {
 };
 
 static PyMethodDef dsaKey__methods__[] = {
-	{"_sign", (PyCFunction) dsaKey__sign, METH_VARARGS, 
+	{"_sign", (PyCFunction) dsaKey__sign, METH_VARARGS,
 	 "Sign the given long."},
 	{"_verify", (PyCFunction) dsaKey__verify, METH_VARARGS,
 	 "Verify that the signature is valid."},
@@ -357,7 +357,7 @@ dsaKey_new (PyObject * self, PyObject * args)
 	PyLongObject *y = NULL, *g = NULL, *p = NULL, *q = NULL, *x = NULL;
 	dsaKey *key;
 	if (!PyArg_ParseTuple(args, "O!O!O!O!|O!", &PyLong_Type, &y,
-			      &PyLong_Type, &g, &PyLong_Type, &p, 
+			      &PyLong_Type, &g, &PyLong_Type, &p,
 			      &PyLong_Type, &q, &PyLong_Type, &x))
 		return NULL;
 
@@ -503,12 +503,12 @@ dsaKey_has_private (dsaKey * key, PyObject * args)
 static PyObject *
 rsaKey_new (PyObject * self, PyObject * args)
 {
-	PyLongObject *n = NULL, *e = NULL, *d = NULL, *p = NULL, *q = NULL, 
+	PyLongObject *n = NULL, *e = NULL, *d = NULL, *p = NULL, *q = NULL,
                      *u = NULL;
 	rsaKey *key;
 
 	if (!PyArg_ParseTuple(args, "O!O!|O!O!O!O!", &PyLong_Type, &n,
-			      &PyLong_Type, &e, &PyLong_Type, &d, 
+			      &PyLong_Type, &e, &PyLong_Type, &d,
 			      &PyLong_Type, &p, &PyLong_Type, &q,
                               &PyLong_Type, &u))
 		return NULL;
@@ -601,7 +601,7 @@ rsaKey_getattr (rsaKey * key, char *attr)
 	}
 	else
 	{
-		return Py_FindMethod (rsaKey__methods__, 
+		return Py_FindMethod (rsaKey__methods__,
 				      (PyObject *) key, attr);
 	}
 }
@@ -664,7 +664,7 @@ rsaKey__verify (rsaKey * key, PyObject * args)
 {
 	PyObject *l, *lsig;
 	mpz_t v, vsig;
-	if (!PyArg_ParseTuple(args, "O!O!", 
+	if (!PyArg_ParseTuple(args, "O!O!",
 			      &PyLong_Type, &l, &PyLong_Type, &lsig))
 	{
 		return NULL;
@@ -690,7 +690,7 @@ rsaKey__blind (rsaKey * key, PyObject * args)
 	PyObject *l, *lblind, *r;
 	mpz_t v, vblind;
 	int result;
-	if (!PyArg_ParseTuple (args, "O!O!", &PyLong_Type, &l, 
+	if (!PyArg_ParseTuple (args, "O!O!", &PyLong_Type, &l,
                                &PyLong_Type, &lblind))
 		{
 			return NULL;
@@ -722,7 +722,7 @@ rsaKey__unblind (rsaKey * key, PyObject * args)
 	PyObject *l, *lblind, *r;
 	mpz_t v, vblind;
 	int result;
-	if (!PyArg_ParseTuple (args, "O!O!", &PyLong_Type, &l, 
+	if (!PyArg_ParseTuple (args, "O!O!", &PyLong_Type, &l,
                                &PyLong_Type, &lblind))
 		{
 			return NULL;

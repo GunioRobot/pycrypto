@@ -4,7 +4,7 @@
  * The "new" method returns an object, whose "get_bytes" method
  * can be called repeatedly to get random bytes, seeded by the
  * OS.  See the description in the comment at the end.
- * 
+ *
  * If you have the Intel Security Driver header files (icsp4ms.h)
  * for their hardware random number generator in the 810 and 820 chipsets,
  * then define HAVE_INTEL_RNG.
@@ -60,7 +60,7 @@ staticforward PyTypeObject WRtype;
 
 static void
 WRdealloc(PyObject *ptr)
-{		
+{
 	WRobject *o = (WRobject *)ptr;
 
 	if (! is_WRobject(ptr)) {
@@ -102,7 +102,7 @@ winrandom_new(PyObject *self, PyObject *args, PyObject *kwdict)
 	char *provname = NULL;
 	int provtype = PROV_RSA_FULL;
 	static char *kwlist[] = { "provider", "provtype", NULL};
-	
+
 	if (!PyArg_ParseTupleAndKeywords(args, kwdict, "|si", kwlist,
 					 &provname, &provtype)) {
 		return NULL;
@@ -127,7 +127,7 @@ WR_get_bytes(WRobject *self, PyObject *args)
 	int n, nbytes, len = 0;
 	PyObject *res;
 	char *buf, *str = NULL;
-	
+
 	if (! is_WRobject(self)) {
 		PyErr_Format(PyExc_TypeError,
 		    "WinRandom trying to get_bytes with non-WinRandom object");
@@ -327,51 +327,51 @@ sources of randomness for CryptGenRandom is this excerpt
 from a posting
 http://www.der-keiler.de/Newsgroups/comp.security.ssh/2002-06/0169.html
 
-From: Jon McClelland (dowot69@hotmail.com) 
-Date: 06/12/02 
-... 
- 
-Windows, call a function such as CryptGenRandom, which has two of 
-the properties of a good random number generator, unpredictability and 
-even value distribution. This function, declared in Wincrypt.h, is 
-available on just about every Windows platform, including Windows 95 
-with Internet Explorer 3.02 or later, Windows 98, Windows Me, Windows 
-CE v3, Windows NT 4, Windows 2000, and Windows XP. 
- 
-CryptGenRandom gets its randomness, also known as entropy, from many 
-sources in Windows 2000, including the following: 
-The current process ID (GetCurrentProcessID). 
-The current thread ID (GetCurrentThreadID). 
-The ticks since boot (GetTickCount). 
-The current time (GetLocalTime). 
-Various high-precision performance counters (QueryPerformanceCounter). 
-A Message Digest 4 (MD4) hash of the user's environment block, which 
-includes username, computer name, and search path. 
- 
-High-precision internal CPU counters, such as RDTSC, RDMSR, RDPMC (x86 
-only-more information about these counters is at 
-developer.intel.com/software/idap/resources/technical_collateral/pentiumii/RDTSCPM1.HTM 
-<http://developer.intel.com>). 
- 
-Low-level system information, such as idle time, kernel time, 
-interrupt times, commit limit, page read count, cache read count, 
-nonpaged pool allocations, alignment fixup count, operating system 
-lookaside information. 
- 
-Such information is added to a buffer, which is hashed using MD4 and 
-used as the key to modify a buffer, using RC4, provided by the user. 
-(Refer to the CryptGenRandom documentation in the Platform SDK for 
-more information about the user-provided buffer.) Hence, if the user 
-provides additional data in the buffer, this is used as an element in 
-the witches brew to generate the random data. The result is a 
-cryptographically random number generator. 
-Also, note that if you plan to sell your software to the United States 
-federal government, you'll need to use FIPS 140-1-approved algorithms. 
-The default versions of CryptGenRandom in Microsoft Windows CE v3, 
-Windows 95, Windows 98, Windows Me, Windows 2000, and Windows XP are 
-FIPS-approved. Obviously FIPS-140 compliance is necessary but not 
-sufficient to provide a properly secure source of random data. 
- 
+From: Jon McClelland (dowot69@hotmail.com)
+Date: 06/12/02
+...
+
+Windows, call a function such as CryptGenRandom, which has two of
+the properties of a good random number generator, unpredictability and
+even value distribution. This function, declared in Wincrypt.h, is
+available on just about every Windows platform, including Windows 95
+with Internet Explorer 3.02 or later, Windows 98, Windows Me, Windows
+CE v3, Windows NT 4, Windows 2000, and Windows XP.
+
+CryptGenRandom gets its randomness, also known as entropy, from many
+sources in Windows 2000, including the following:
+The current process ID (GetCurrentProcessID).
+The current thread ID (GetCurrentThreadID).
+The ticks since boot (GetTickCount).
+The current time (GetLocalTime).
+Various high-precision performance counters (QueryPerformanceCounter).
+A Message Digest 4 (MD4) hash of the user's environment block, which
+includes username, computer name, and search path.
+
+High-precision internal CPU counters, such as RDTSC, RDMSR, RDPMC (x86
+only-more information about these counters is at
+developer.intel.com/software/idap/resources/technical_collateral/pentiumii/RDTSCPM1.HTM
+<http://developer.intel.com>).
+
+Low-level system information, such as idle time, kernel time,
+interrupt times, commit limit, page read count, cache read count,
+nonpaged pool allocations, alignment fixup count, operating system
+lookaside information.
+
+Such information is added to a buffer, which is hashed using MD4 and
+used as the key to modify a buffer, using RC4, provided by the user.
+(Refer to the CryptGenRandom documentation in the Platform SDK for
+more information about the user-provided buffer.) Hence, if the user
+provides additional data in the buffer, this is used as an element in
+the witches brew to generate the random data. The result is a
+cryptographically random number generator.
+Also, note that if you plan to sell your software to the United States
+federal government, you'll need to use FIPS 140-1-approved algorithms.
+The default versions of CryptGenRandom in Microsoft Windows CE v3,
+Windows 95, Windows 98, Windows Me, Windows 2000, and Windows XP are
+FIPS-approved. Obviously FIPS-140 compliance is necessary but not
+sufficient to provide a properly secure source of random data.
+
 */
 /*
 [Update: 2007-11-13]

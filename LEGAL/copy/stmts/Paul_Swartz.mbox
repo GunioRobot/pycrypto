@@ -42,12 +42,12 @@ find if I can release PyCrypto under something clearer and more standard.
 Below, I have quoted a public domain dedication that was recommended in
 _Intellectual Property and Open Source: A Practical Guide to Protecting
 Code_, by Van Lindberg.  I have already contacted A. M. Kuchling, Robey
-Pointer, Barry Warsaw, Wim Lewis, Jeethu Rao, Joris Bontje, and Mark 
-Moraes, and they have all approved the following dedication for their 
+Pointer, Barry Warsaw, Wim Lewis, Jeethu Rao, Joris Bontje, and Mark
+Moraes, and they have all approved the following dedication for their
 contributions.
 
-I understand that you have made contributions to PyCrypto, under nickname 
-"z3p" and/or other names.  May I, on your behalf, dedicate to the public 
+I understand that you have made contributions to PyCrypto, under nickname
+"z3p" and/or other names.  May I, on your behalf, dedicate to the public
 domain all your contributions to PyCrypto, with the following notice?
 
    =======================================================================
@@ -101,7 +101,7 @@ DomainKey-Signature: a=rsa-sha1; c=nofws;
          Q3opUMsT96Q6zjZND55w446kTh2uBTNz4d3NwIeEWJnG3xcliRQu/mXPFp8AzPI3CefL
          1ornJLM1eQ2XyuZA73jem+SJtfdHUcSD1UhgI=
 MIME-Version: 1.0
-Received: by 10.239.157.147 with SMTP id q19mr601802hbc.61.1249316043185; Mon, 
+Received: by 10.239.157.147 with SMTP id q19mr601802hbc.61.1249316043185; Mon,
 	03 Aug 2009 09:14:03 -0700 (PDT)
 In-Reply-To: <20090803014825.GA1326@rivest.dlitz.net>
 References: <20090803014825.GA1326@rivest.dlitz.net>
@@ -205,7 +205,7 @@ On Mon, Aug 03, 2009 at 12:13:43PM -0400, Paul Swartz wrote:
 
 Perfect!  Thanks for the quick response!
 
--- 
+--
 Dwayne C. Litzenberger <dlitz@dlitz.net>
   Key-signing key   - 19E1 1FE8 B3CF F273 ED17  4A24 928C EC13 39C2 5CF7
 

@@ -84,7 +84,7 @@ Much of the code that actually implements the various cryptographic
 algorithms was not written by me.  I'd like to thank all the people who
 implemented them, and released their work under terms which allowed me
 to use their code.  These individuals are credited in the relevant
-chapters of this documentation.  Bruce Schneier's book 
+chapters of this documentation.  Bruce Schneier's book
 :title-reference:`Applied Cryptography` was also very useful in writing this toolkit; I highly
 recommend it if you're interested in learning more about cryptography.
 
@@ -108,7 +108,7 @@ cryptographically secure hash functions include MD2, MD5, and SHA1.
 
 Hash functions can be used simply as a checksum, or, in association with a
 public-key algorithm, can be used to implement digital signatures.
- 
+
 The hashing algorithms currently implemented are:
 
 =============   =============
@@ -141,7 +141,7 @@ it returns, but using ``digest_size`` is faster.
 
 The methods for hashing objects are always the following:
 
-**copy()**: 
+**copy()**:
 Return a separate copy of this hashing object.  An ``update`` to
 this copy won't affect the original object.
 
@@ -267,7 +267,7 @@ structure to obtain some information about the text.
 To eliminate this weakness, there are various feedback modes in which
 the plaintext is combined with the previous ciphertext before
 encrypting; this eliminates any repetitive structure in the
-ciphertext.   
+ciphertext.
 
 One mode is Cipher Block Chaining (CBC mode); another is Cipher
 FeedBack (CFB mode).  CBC mode still encrypts in blocks, and thus is
@@ -301,8 +301,8 @@ In a strict formal sense, **stream ciphers** encrypt data bit-by-bit;
 practically, stream ciphers work on a character-by-character basis.
 Stream ciphers use exactly the
 same interface as block ciphers, with a block length that will always
-be 1; this is how block and stream ciphers can be distinguished. 
-The only feedback mode available for stream ciphers is ECB mode. 
+be 1; this is how block and stream ciphers can be distinguished.
+The only feedback mode available for stream ciphers is ECB mode.
 
 The currently available stream ciphers are listed in the following table:
 
@@ -355,13 +355,13 @@ the "Algorithm-specific Notes for Encryption Algorithms" section below for the d
 An integer value; the size of the blocks encrypted by this module.
 Strings passed to the ``encrypt`` and ``decrypt`` functions
 must be a multiple of this length.  For stream ciphers,
-``block_size`` will be 1. 
+``block_size`` will be 1.
 
 **key_size**:
 An integer value; the size of the keys required by this module.  If
 ``key_size`` is zero, then the algorithm accepts arbitrary-length
 keys.  You cannot pass a key of length 0 (that is, the null string
-``""`` as such a variable-length key.  
+``""`` as such a variable-length key.
 
 All cipher objects have at least three attributes:
 
@@ -381,7 +381,7 @@ in length.  It is read-only, and cannot be assigned a new value.
 An integer value equal to the size of the keys used by this object.  If
 ``key_size`` is zero, then the algorithm accepts arbitrary-length
 keys.  For algorithms that support variable length keys, this will be 0.
-Identical to the module variable of the same name.  
+Identical to the module variable of the same name.
 
 
 All ciphering objects have the following methods:
@@ -437,7 +437,7 @@ encrypted.
 DES (5100 K/sec) has a 56-bit key; this is starting to become too small
 for safety.  It has been estimated that it would only cost $1,000,000 to
 build a custom DES-cracking machine that could find a key in 3 hours.  A
-chosen-ciphertext attack using the technique of 
+chosen-ciphertext attack using the technique of
 **linear cryptanalysis** can break DES in ``pow(2, 43)`` steps.  However,
 unless you're encrypting data that you want to be safe from major
 governments, DES will be fine. DES3 (1830 K/sec) uses three DES
@@ -465,13 +465,13 @@ The code for Blowfish was written by Bryan Olson, partially based on a
 previous implementation by Bruce Schneier, who also invented the
 algorithm; the Blowfish algorithm has been placed in the public domain
 and can be used freely.  (See http://www.counterpane.com for more
-information about Blowfish.)  The CAST implementation was written by 
+information about Blowfish.)  The CAST implementation was written by
 Wim Lewis.  The DES implementation was written by Eric Young, and the
 IDEA implementation by Colin Plumb. The RC5 implementation
 was written by A.M. Kuchling.
 
 The Alleged RC4 code was posted to the ``sci.crypt`` newsgroup by an
-unknown party, and re-implemented by A.M. Kuchling.  
+unknown party, and re-implemented by A.M. Kuchling.
 
 
 Crypto.Protocol: Various Protocols
@@ -508,7 +508,7 @@ needed.
 The methods of the ``AllOrNothing`` class are:
 
 **digest(text)**:
-Perform the All-or-Nothing package transform on the 
+Perform the All-or-Nothing package transform on the
 string ``text``.  Output is a list of message blocks describing the
 transformed text, where each block is a string of bit length equal
 to the cipher module's block_size.
@@ -561,11 +561,11 @@ unaware that a third party, say Charles, is adding chaff packets to her
 messages as they are transmitted.
 
 **Chaff(factor=1.0, blocksper=1)**:
-Class implementing the chaff adding algorithm. 
-``factor`` is the number of message blocks 
+Class implementing the chaff adding algorithm.
+``factor`` is the number of message blocks
 to add chaff to, expressed as a percentage between 0.0 and 1.0; the default value is 1.0.
 ``blocksper`` is the number of chaff blocks to include for each block
-being chaffed, and defaults to 1.  The default settings 
+being chaffed, and defaults to 1.  The default settings
 add one chaff block to every
 message block.  By changing the defaults, you can adjust how
 computationally difficult it could be for an adversary to
@@ -597,7 +597,7 @@ which are chaff is to perform the MAC hash and compare values.
 Crypto.PublicKey: Public-Key Algorithms
 --------------------------------------------------
 
-So far, the encryption algorithms described have all been *private key* 
+So far, the encryption algorithms described have all been *private key*
 ciphers.  The same key is used for both encryption and decryption
 so all correspondents must know it.  This poses a problem: you may
 want encryption to communicate sensitive data over an insecure
@@ -676,7 +676,7 @@ accept a single integer ``N`` and return a string of random data
 ``N`` bytes long.  You should always use a cryptographically secure
 random number generator, such as the one defined in the
 ``Crypto.Random`` module; **don't** just use the
-current time and the ``random`` module. 
+current time and the ``random`` module.
 
 ``progress_func`` is an optional function that will be called with a short
 string containing the key parameter currently being generated; it's
@@ -695,8 +695,8 @@ may raise exceptions if their functionality is not supported by the
 algorithm.
 
 **can_blind()**:
-Returns true if the algorithm is capable of blinding data; 
-returns false otherwise.  
+Returns true if the algorithm is capable of blinding data;
+returns false otherwise.
 
 
 **can_encrypt()**:
@@ -720,7 +720,7 @@ too long.
 
 **encrypt(string, K)**:
 Encrypts ``string`` with the private key, returning a tuple of
-strings; the length of the tuple varies from algorithm to algorithm.  
+strings; the length of the tuple varies from algorithm to algorithm.
 ``K`` should be a string of random data that is as long as
 possible.  Encryption does not require the private key to be present
 inside the key object.  It will raise an exception if ``string`` is
@@ -737,7 +737,7 @@ Otherwise this returns false.
 
 **publickey()**:
 Returns a new public key object that doesn't contain the private key
-data. 
+data.
 
 
 **sign(string, K)**:
@@ -773,7 +773,7 @@ For RSA, the ``K`` parameters are unused; if you like, you can just
 pass empty strings.  The ElGamal and DSA algorithms require a real
 ``K`` value for technical reasons; see Schneier's book for a detailed
 explanation of the respective algorithms.  This presents a possible
-hazard that can  
+hazard that can
 inadvertently reveal the private key.  Without going into the
 mathematical details, the danger is as follows. ``K`` is never derived
 or needed by others; theoretically, it can be thrown away once the
@@ -810,9 +810,9 @@ Any of these algorithms can be trivially broken; for example, RSA can be
 broken by factoring the modulus *n* into its two prime factors.
 This is easily done by the following code::
 
-    for i in range(2, n): 
-	if (n%i)==0: 
-	    print i, 'is a factor' 
+    for i in range(2, n):
+	if (n%i)==0:
+	    print i, 'is a factor'
 	    break
 
 However, ``n`` is usually a few hundred bits long, so this simple
@@ -833,13 +833,13 @@ Crypto.Util: Odds and Ends
 --------------------------------------------------
 
 This chapter contains all the modules that don't fit into any of the
-other chapters.  
+other chapters.
 
 
 Crypto.Util.number
 ==========================
 
-This module contains various number-theoretic functions.  
+This module contains various number-theoretic functions.
 
 **GCD(x,y)**:
 Return the greatest common divisor of ``x`` and ``y``.
@@ -911,7 +911,7 @@ entropy of 8 bits.  Now consider a one-byte field in a database containing a
 person's sex, represented as a single character ``'M'`` or ``'F'``.
 What's the entropy of this field?  Since there are only two possible
 values, it's not 8 bits, but one; if you were trying to guess the value,
-you wouldn't have to bother trying ``'Q'`` or ``'@'``.  
+you wouldn't have to bother trying ``'Q'`` or ``'@'``.
 
 Now imagine running that single byte field through a hash function that
 produces 128 bits of output.  Is the entropy of the resulting hash value
@@ -932,14 +932,14 @@ it was easy to compute all the possible passwords and try them.  The
 entropy of the random passwords was far too low.  By the same token, if
 you generate an RSA key with only 32 bits of entropy available, there
 are only about 4.2 billion keys you could have generated, and an
-adversary could compute them all to find your private key.  See 
+adversary could compute them all to find your private key.  See
 RFC 1750,
 "Randomness Recommendations for Security", for an interesting discussion
 of the issues related to random number generation.
 
 The ``Random`` module builds strong random number generators that look
 like generic files a user can read data from. The internal state consists
-of entropy accumulators based on the best randomness sources the underlying 
+of entropy accumulators based on the best randomness sources the underlying
 operating is capable to provide.
 
 The ``Random`` module defines the following methods:
@@ -1007,7 +1007,7 @@ idea.  This chapter explains how to write new modules for the Toolkit.
 The basic process is as follows:
 
 1. Add a new ``.c`` file containing an implementation of the new
-algorithm.  
+algorithm.
 This file must define 3 or 4 standard functions,
 a few constants, and a C ``struct`` encapsulating the state
 variables required by the algorithm.
